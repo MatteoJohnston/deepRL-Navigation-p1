@@ -67,7 +67,7 @@ Before learning begins, <img src="images/Q.svg" alt="" title="Q" /> is initializ
 
 <img src="images/Qupdate.svg" width="67%" align="top-left" alt="" title="Qupdate" />
 
-where <img src="images/rt.svg" alt="" title="rt" /> is the reward received when moving from the state <img src="images/st.svg" alt="" title="st" /> to the state <img src="images/st+1.svg" alt="" title="st+1" />, and <img src="images/alpha.svg" alt="" title="alpha" />  is the learning rate ( <img src="images/alpha_bound.svg" alt="" title="alpha_bound" />).
+where <img src="images/rt.svg" alt="" title="rt" /> is the reward received when moving from the state <img src="images/st.svg" alt="" title="st" /> to the state <img src="images/st+1.svg" alt="" title="st+1" />, and <img src="images/alpha.svg" alt="" title="alpha" />  is the learning rate (<img src="images/alpha_bound.svg" alt="" title="alpha_bound" />).
 
 The weight for a step from a state <img src="images/Dt.svg" alt="" title="Dt" /> steps into the future is calculated as <img src="images/gammaDt.svg" alt="" title="gammaDt" />. <img src="images/gamma.svg" alt="" title="gamma" />  (the discount factor) is a number between 0 and 1 ( <img src="images/gamma_bounds.svg" alt="" title="gamma_bounds" />) and has the effect of valuing rewards received earlier higher than those received later (reflecting the value of a "good start"). <img src="images/gamma.svg" alt="" title="gamma" />  may also be interpreted as the probability to succeed (or survive) at every step <img src="images/Dt.svg" alt="" title="Dt" />.
 
