@@ -71,8 +71,9 @@ In order to discount returns at future time steps, the Q-function can be expande
 
 The algorithm, therefore, has a function that calculates the quality of a state-action combination:
 
-{\displaystyle Q:S\times A\to \mathbb {R} } Q:S\times A\to {\mathbb  {R}} .
-Before learning begins, {\displaystyle Q} Q is initialized to a possibly arbitrary fixed value (chosen by the programmer). Then, at each time {\displaystyle t} t the agent selects an action {\displaystyle a_{t}} a_{t}, observes a reward {\displaystyle r_{t}} r_{t}, enters a new state {\displaystyle s_{t+1}} s_{t+1} (that may depend on both the previous state {\displaystyle s_{t}} s_{t} and the selected action), and {\displaystyle Q} Q is updated. The core of the algorithm is a simple value iteration update, using the weighted average of the old value and the new information:
+<img src="images/state-action combination.png" width="67%" align="top-left" alt="" title="state-action combination" />
+
+Before learning begins, <img src="images/Q.svg" alt="" title="Q" /> is initialized to a possibly arbitrary fixed value (chosen by the programmer). Then, at each time <img src="images/t.svg" alt="" title="t" /> the agent selects an action <img src="images/at.svg" alt="" title="at" />, observes a reward <img src="images/rt.svg" alt="" title="rt" />, enters a new state <img src="images/st+1.svg" alt="" title="st+1" /> (that may depend on both the previous state {\displaystyle s_{t}} s_{t} and the selected action), and {\displaystyle Q} Q is updated. The core of the algorithm is a simple value iteration update, using the weighted average of the old value and the new information:
 
 {\displaystyle Q^{new}(s_{t},a_{t})\leftarrow (1-\alpha )\cdot \underbrace {Q(s_{t},a_{t})} _{\text{old value}}+\underbrace {\alpha } _{\text{learning rate}}\cdot \overbrace {{\bigg (}\underbrace {r_{t}} _{\text{reward}}+\underbrace {\gamma } _{\text{discount factor}}\cdot \underbrace {\max _{a}Q(s_{t+1},a)} _{\text{estimate of optimal future value}}{\bigg )}} ^{\text{learned value}}}
 
