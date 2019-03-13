@@ -57,18 +57,12 @@ After one run the score is 0.0. Although one run is generally not enough to form
 
 
 ### 3. DQN Algorithm implementation
-In general, reinforcement learning involves an agent, a set of states <img src="images/S.svg" alt="" title="S" />, and a set <img src="images/A.svg" alt="" title="A" /> of actions per state. By performing an action <img src="images/a in A.svg" alt="" title="a in A" />, the agent transitions from state to state. Executing an action in a specific state provides the agent with a reward (a numerical score).
+In general, reinforcement learning involves an agent, a set of states <img src="images/S.svg" align="bottom-left" alt="" title="S" />, and a set <img src="images/A.svg" alt="" title="A" /> of actions per state. By performing an action <img src="images/a in A.svg" alt="" title="a in A" />, the agent transitions from state to state. Executing an action in a specific state provides the agent with a reward (a numerical score).
 The goal of the agent is to maximize its total (future) reward. It does this by adding the maximum reward attainable from future states to the reward for achieving its current state, effectively influencing the current action by the potential future reward. This potential reward is a weighted sum of the expected values of the rewards of all future steps starting from the current state.
 
 A **Q-Learning** algorithm is fashioned in such a way that the optimal policy must be discovered by interacting with the environment and recording observations. Therefore, the agent "learns" the policy through a process of trial-and-error that iteratively maps various environment states to the actions that yield the highest reward.
 
 #### Q-Function
-Before learning begins, <img src="images/Q.svg" alt="" title="Q" /> is initialized to a possibly arbitrary fixed value (chosen by the programmer). Then, at each time <img src="images/t.svg" alt="" title="t" /> the agent selects an action <img src="images/at.svg" alt="" title="at" />, observes a reward <img src="images/rt.svg" alt="" title="rt" />, enters a new state <img src="images/st+1.svg" alt="" title="st+1" /> (that may depend on both the previous state <img src="images/st.svg" alt="" title="st" /> and the selected action), and <img src="images/Q.svg" alt="" title="Q" /> is updated. The core of the algorithm is a simple value iteration update, using the weighted average of the old value and the new information:
-
-<img src="images/Qupdate.svg" width="67%" align="top-left" alt="" title="Qupdate" />
-
-where <img src="images/rt.svg" alt="" title="rt" /> is the reward received when moving from the state <img src="images/st.svg" alt="" title="st" /> to the state <img src="images/st+1.svg" alt="" title="st+1" />, and <img src="images/alpha.svg" alt="" title="alpha" />  is the learning rate (<img src="images/alpha_bound.svg" alt="" title="alpha_bound" />).
-
 The weight for a step from a state <img src="images/Dt.svg" alt="" title="Dt" /> steps into the future is calculated as <img src="images/gammaDt.svg" alt="" title="gammaDt" />. <img src="images/gamma.svg" alt="" title="gamma" />  (the discount factor) is a number between 0 and 1 ( <img src="images/gamma_bounds.svg" alt="" title="gamma_bounds" />) and has the effect of valuing rewards received earlier higher than those received later (reflecting the value of a "good start"). <img src="images/gamma.svg" alt="" title="gamma" />  may also be interpreted as the probability to succeed (or survive) at every step <img src="images/Dt.svg" alt="" title="Dt" />.
 
 In order to discount returns at future time steps, the Q-function can be expanded to include the hyperparameter gamma `γ`.
@@ -82,6 +76,12 @@ The algorithm, therefore, has a function that calculates the quality of a state-
 We can then define our optimal policy `π*` as the action that maximizes the Q-function for a given state across all possible states. The optimal Q-function `Q*(s,a)` maximizes the total expected reward for an agent starting in state `s` and choosing action `a`, then following the optimal policy for each subsequent state.
 
 <img src="images/optimal-policy-equation.png" width="47%" align="top-left" alt="" title="Optimal Policy Equation" />
+
+Before learning begins, <img src="images/Q.svg" alt="" title="Q" /> is initialized to a possibly arbitrary fixed value (chosen by the programmer). Then, at each time <img src="images/t.svg" alt="" title="t" /> the agent selects an action <img src="images/at.svg" alt="" title="at" />, observes a reward <img src="images/rt.svg" alt="" title="rt" />, enters a new state <img src="images/st+1.svg" alt="" title="st+1" /> (that may depend on both the previous state <img src="images/st.svg" alt="" title="st" /> and the selected action), and <img src="images/Q.svg" alt="" title="Q" /> is updated. The core of the algorithm is a simple value iteration update, using the weighted average of the old value and the new information:
+
+<img src="images/Qupdate.svg" width="67%" align="top-left" alt="" title="Qupdate" />
+
+where <img src="images/rt.svg" alt="" title="rt" /> is the reward received when moving from the state <img src="images/st.svg" alt="" title="st" /> to the state <img src="images/st+1.svg" alt="" title="st+1" />, and <img src="images/alpha.svg" alt="" title="alpha" />  is the learning rate (<img src="images/alpha_bound.svg" alt="" title="alpha_bound" />).
 
 #### Epsilon Greedy Algorithm
 The **exploration vs. exploitation dilemma** is a well known challenge in the field of reinforcement learning and it refers to the challenge with the Q-function in choosing which action to take while the agent is still learning the optimal policy. Should the agent choose an action based on the Q-values observed thus far? Or, should the agent try a new action in hopes of earning a higher reward?
@@ -105,7 +105,7 @@ Each experience is stored in a replay buffer as the agent interacts with the env
 
 Also, experience replay improves learning through repetition. By doing multiple passes over the data, our agent has multiple opportunities to learn from a single experience tuple. This is particularly useful for state-action pairs that occur infrequently within the environment.
 
-The implementation of the replay buffer can be found in the `agent.py` file of the source code.
+The implementation of the replay buffer can be found [here] (https://github.com/tMatteoJohnston/deepRL-Navigation-p1/agent.py#L66) in the `agent.py` file of the source code.
 
 ##### &nbsp;
 
