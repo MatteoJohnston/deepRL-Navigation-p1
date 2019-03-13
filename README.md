@@ -90,7 +90,7 @@ We implemented an **𝛆-greedy algorithm** to systematically manage the explora
 
 Furthermore, the value of epsilon is purposely decayed over time, so that the agent favors exploration during its initial interactions with the environment, but increasingly favors exploitation as it gains more experience. The starting and ending values for epsilon, and the rate at which it decays are three hyperparameters that are later tuned during experimentation.
 
-You can find the 𝛆-greedy logic implemented as part of the `agent.act()` method in `agent.py` of the source code [here] (https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/agent.py#L73).
+You can find the 𝛆-greedy logic implemented as part of the `agent.act()` method in `agent.py` of the source code [here](https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/agent.py#L73).
 
 
 #### Deep Q-Network (DQN)
