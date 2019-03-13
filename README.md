@@ -90,7 +90,7 @@ We implemented an **𝛆-greedy algorithm** to systematically manage the explora
 
 Furthermore, the value of epsilon is purposely decayed over time, so that the agent favors exploration during its initial interactions with the environment, but increasingly favors exploitation as it gains more experience. The starting and ending values for epsilon, and the rate at which it decays are three hyperparameters that are later tuned during experimentation.
 
-You can find the 𝛆-greedy logic implemented as part of the `agent.act()` method in `agent.py` of the source code.
+You can find the 𝛆-greedy logic implemented as part of the `agent.act()` method in `agent.py` of the source code [here] (https://github.com/tMatteoJohnston/deepRL-Navigation-p1/agent.py#L66).
 
 
 #### Deep Q-Network (DQN)
@@ -105,7 +105,7 @@ Each experience is stored in a replay buffer as the agent interacts with the env
 
 Also, experience replay improves learning through repetition. By doing multiple passes over the data, our agent has multiple opportunities to learn from a single experience tuple. This is particularly useful for state-action pairs that occur infrequently within the environment.
 
-The implementation of the replay buffer can be found [here] (https://github.com/tMatteoJohnston/deepRL-Navigation-p1/agent.py#L66) in the `agent.py` file of the source code.
+The implementation of the replay buffer can be found in the `agent.py` file of the source code.
 
 ##### &nbsp;
 
