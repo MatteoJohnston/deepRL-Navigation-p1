@@ -57,7 +57,7 @@ After one run the score is 0.0. Although one run is generally not enough to form
 
 
 ### 3. DQN Algorithm implementation
-In general, reinforcement learning involves an agent, a set of states <img src="images/S.png" width="67%" align="top-left" alt="" title="S" />, and a set {\displaystyle A} A of actions per state. By performing an action {\displaystyle a\in A} a\in A, the agent transitions from state to state. Executing an action in a specific state provides the agent with a reward (a numerical score).
+In general, reinforcement learning involves an agent, a set of states <img src="images/S.svg" alt="" title="S" />, and a set {\displaystyle A} A of actions per state. By performing an action {\displaystyle a\in A} a\in A, the agent transitions from state to state. Executing an action in a specific state provides the agent with a reward (a numerical score).
 The goal of the agent is to maximize its total (future) reward. It does this by adding the maximum reward attainable from future states to the reward for achieving its current state, effectively influencing the current action by the potential future reward. This potential reward is a weighted sum of the expected values of the rewards of all future steps starting from the current state.
 
 The optimal policy must be discovered by interacting with the environment and recording observations. Therefore, the agent "learns" the policy through a process of trial-and-error that iteratively maps various environment states to the actions that yield the highest reward. This type of algorithm is called **Q-Learning**.
