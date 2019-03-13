@@ -63,6 +63,12 @@ The goal of the agent is to maximize its total (future) reward. It does this by 
 A **Q-Learning** algorithm is fashioned in such a way that the optimal policy must be discovered by interacting with the environment and recording observations. Therefore, the agent "learns" the policy through a process of trial-and-error that iteratively maps various environment states to the actions that yield the highest reward.
 
 #### Q-Function
+Before learning begins, <img src="images/Q.svg" alt="" title="Q" /> is initialized to a possibly arbitrary fixed value (chosen by the programmer). Then, at each time <img src="images/t.svg" alt="" title="t" /> the agent selects an action <img src="images/at.svg" alt="" title="at" />, observes a reward <img src="images/rt.svg" alt="" title="rt" />, enters a new state <img src="images/st+1.svg" alt="" title="st+1" /> (that may depend on both the previous state <img src="images/st.svg" alt="" title="st" /> and the selected action), and <img src="images/Q.svg" alt="" title="Q" /> is updated. The core of the algorithm is a simple value iteration update, using the weighted average of the old value and the new information:
+
+<img src="images/Qupdate.svg" width="67%" align="top-left" alt="" title="Qupdate" />
+
+where <img src="images/rt.svg" alt="" title="rt" /> is the reward received when moving from the state <img src="images/st.svg" alt="" title="st" /> to the state <img src="images/st+1.svg" alt="" title="st+1" />, and {\displaystyle \alpha } \alpha  is the learning rate ( {\displaystyle 0<\alpha \leq 1} 0<\alpha \leq 1).
+
 The weight for a step from a state <img src="images/Dt.svg" alt="" title="Dt" /> steps into the future is calculated as <img src="images/gammaDt.svg" alt="" title="gammaDt" />. <img src="images/gamma.svg" alt="" title="gamma" />  (the discount factor) is a number between 0 and 1 ( <img src="images/gamma_bounds.svg" alt="" title="gamma_bounds" />) and has the effect of valuing rewards received earlier higher than those received later (reflecting the value of a "good start"). <img src="images/gamma.svg" alt="" title="gamma" />  may also be interpreted as the probability to succeed (or survive) at every step <img src="images/Dt.svg" alt="" title="Dt" />.
 
 In order to discount returns at future time steps, the Q-function can be expanded to include the hyperparameter gamma `γ`.
@@ -72,12 +78,6 @@ In order to discount returns at future time steps, the Q-function can be expande
 The algorithm, therefore, has a function that calculates the quality of a state-action combination:
 
 <img src="images/state-action combination.png" width="67%" align="top-left" alt="" title="state-action combination" />
-
-Before learning begins, <img src="images/Q.svg" alt="" title="Q" /> is initialized to a possibly arbitrary fixed value (chosen by the programmer). Then, at each time <img src="images/t.svg" alt="" title="t" /> the agent selects an action <img src="images/at.svg" alt="" title="at" />, observes a reward <img src="images/rt.svg" alt="" title="rt" />, enters a new state <img src="images/st+1.svg" alt="" title="st+1" /> (that may depend on both the previous state <img src="images/st.svg" alt="" title="st" /> and the selected action), and <img src="images/Q.svg" alt="" title="Q" /> is updated. The core of the algorithm is a simple value iteration update, using the weighted average of the old value and the new information:
-
-<img src="images/Qupdate.svg" width="67%" align="top-left" alt="" title="Qupdate" />
-
-where <img src="images/rt.svg" alt="" title="rt" /> is the reward received when moving from the state <img src="images/st.svg" alt="" title="st" /> to the state <img src="images/st+1.svg" alt="" title="st+1" />, and {\displaystyle \alpha } \alpha  is the learning rate ( {\displaystyle 0<\alpha \leq 1} 0<\alpha \leq 1).
 
 We can then define our optimal policy `π*` as the action that maximizes the Q-function for a given state across all possible states. The optimal Q-function `Q*(s,a)` maximizes the total expected reward for an agent starting in state `s` and choosing action `a`, then following the optimal policy for each subsequent state.
 
