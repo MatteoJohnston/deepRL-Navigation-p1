@@ -115,7 +115,7 @@ Given that implementing DQN respect to initial benchmark policy was quite succes
 
 <img src="images/project_summary.PNG" width="67%" align="top-left" alt="" title="project_summary" />
 
-<img src="images/select best performing agent.PNG" width="67%" align="top-left" alt="" title="select best performing agent" />
+<img src="images/selecting best performing agent.PNG" width="67%" align="top-left" alt="" title="selecting best performing agent" />
 
 
 
