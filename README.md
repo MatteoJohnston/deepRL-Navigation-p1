@@ -96,7 +96,7 @@ You can find the 𝛆-greedy logic implemented as part of the `agent.act()` meth
 #### Deep Q-Network (DQN)
 As name suggest, Deep Q-Learning, could essentially be described as a combination of a deep neural network and reinforcement learning. In this instance a deep network is used to approximate the Q-function. Given a network `F`, finding an optimal policy is a matter of finding the best weights `w` such that `F(s,a,w) ≈ Q(s,a)`.
 
-The neural network architecture used for this project can be found in the `model.py` file of the source code. The network contains three fully connected layers with 64, 64, and 4 nodes respectively.
+The neural network architecture used for this project can be found in the `model.py` file of the source code [here](https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/model.py#L5). The network contains three fully connected layers with 64, 64, and 4 nodes respectively.
 
 #### Experience Replay
 Experience replay allows the RL agent to learn from past experience.
@@ -105,7 +105,7 @@ Each experience is stored in a replay buffer as the agent interacts with the env
 
 Also, experience replay improves learning through repetition. By doing multiple passes over the data, our agent has multiple opportunities to learn from a single experience tuple. This is particularly useful for state-action pairs that occur infrequently within the environment.
 
-The implementation of the replay buffer can be found in the `agent.py` file of the source code.
+The implementation of the replay buffer can be found in the `agent.py` file of the source code [here](https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/agent.py#L121).
 
 ##### &nbsp;
 
@@ -114,6 +114,8 @@ The implementation of the replay buffer can be found in the `agent.py` file of t
 Given that implementing DQN respect to initial benchmark policy was quite successful we only lmited ourselves to different hyperparameters. We managed in more than one occasion to solve in less than 250 episodes.
 
 <img src="images/project_summary.PNG" width="67%" align="top-left" alt="" title="project_summary" />
+
+<img src="images/select best performing agent.PNG" width="67%" align="top-left" alt="" title="select best performing agent" />
 
 
 
