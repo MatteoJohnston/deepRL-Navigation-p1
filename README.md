@@ -113,6 +113,9 @@ The implementation of the replay buffer can be found in the `agent.py` file of t
 
 Given that implementing DQN respect to initial benchmark policy was quite successful we only lmited ourselves to different hyperparameters. We managed in more than one occasion to solve in less than 250 episodes.
 
+<img src="images/project_summary.PNG" width="67%" align="top-left" alt="" title="project_summary" />
+
+
 
 ##### &nbsp;
 
