@@ -50,7 +50,7 @@ while True:
 print("Score: {}".format(score))
 ```
 
-After one run the score is 0.0. Although one run is generally not enough to form an accurate view, in this instance we deem to be sufficient to understand to understand that this methodology won't help us to solve the problem. Hence the need for deeep reinforcement learning.
+After one run the score is 0.0. Although one run is generally not enough to form an accurate view, in this instance we deem to be sufficient to understand that this methodology won't help us to solve the problem. Hence the need for deeep reinforcement learning.
 
 
 ##### &nbsp;
