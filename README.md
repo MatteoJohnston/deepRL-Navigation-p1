@@ -99,9 +99,8 @@ As name suggest, Deep Q-Learning, could essentially be described as a combinatio
 The neural network architecture used for this project can be found in the `model.py` file of the source code [here](https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/model.py#L5). The network contains three fully connected layers with 64, 64, and 4 nodes respectively.
 
 #### Experience Replay
-Experience replay allows the RL agent to learn from past experience.
-
-Each experience is stored in a replay buffer as the agent interacts with the environment. The replay buffer contains a collection of experience tuples with the state, action, reward, and next state `(s, a, r, s')`. The agent then samples from this buffer as part of the learning step. Experiences are sampled randomly, so that the data is uncorrelated. This prevents action values from oscillating or diverging catastrophically, since a naive Q-learning algorithm could otherwise become biased by correlations between sequential experience tuples.
+Experience replay allows the RL agent to learn from past experience, as the name would suggest. Each experience is stored in a replay buffer as the agent interacts with the environment. The replay buffer contains a collection of experience tuples with the state, action, reward, and next state `(s, a, r, s')`. 
+The agent uses a random sapmling as part of the learning step. As the experiences are sampled randomly, we can assume the data to uncorrelated, although it is not always the case. Since a naive Q-learning algorithm could otherwise become biased by or "stable" by correlated (sequential) experience tuples, using random sampling generally helps with convergence issues.
 
 Also, experience replay improves learning through repetition. By doing multiple passes over the data, our agent has multiple opportunities to learn from a single experience tuple. This is particularly useful for state-action pairs that occur infrequently within the environment.
 
@@ -122,15 +121,9 @@ Given that implementing DQN respect to initial benchmark policy was quite succes
 ##### &nbsp;
 
 ## Future Improvements
-- **Test the replay buffer** &mdash; Implement a way to enable/disable the replay buffer. As mentioned before, all agents utilized the replay buffer. Therefore, the test results don't measure the impact the replay buffer has on performance.
-- **Add *prioritized* experience replay** &mdash; Rather than selecting experience tuples randomly, prioritized replay selects experiences based on a priority value that is correlated with the magnitude of error. This can improve learning by increasing the probability that rare and important experience vectors are sampled.
-- **Replace conventional exploration heuristics with Noisy DQN** &mdash; This approach is explained [here](https://arxiv.org/abs/1706.10295) in this research paper. The key takeaway is that parametric noise is added to the weights to induce stochasticity to the agent's policy, yielding more efficient exploration.
-
-#### Dueling Agents
-Dueling networks utilize two streams: one that estimates the state value function `V(s)`, and another that estimates the advantage for each action `A(s,a)`. These two values are then combined to obtain the desired Q-values.
-
-#### Double Deep Q-Network (DDQN)
-One issue with Deep Q-Networks is they can overestimate Q-values (see [Thrun & Schwartz, 1993](https://www.ri.cmu.edu/pub_files/pub1/thrun_sebastian_1993_1/thrun_sebastian_1993_1.pdf)). The accuracy of the Q-values depends on which actions have been tried and which states have been explored. If the agent hasn't gathered enough experiences, the Q-function will end up selecting the maximum value from a noisy set of reward estimates. Early in the learning process, this can cause the algorithm to propagate incidentally high rewards that were obtained by chance (exploding Q-values). This could also result in fluctuating Q-values later in the process.
+- instead of a uniform experience replay we could used a **"prioritised experience replay"** which gives a sampling probability to transitions that are proportional to those transition’s ranks in the replay memory, meaning that useful high TD-Error samples will get sampled more often, decreases learning time even more than uniform experience replay.
+- **Double DQN Learning** which essentially relies on maintaining two Q-value functions QA and QB, each one gets update from the other for the next state.
+- **Dueling DQN** which splits the neural network into two — one learns to provide an estimate of the value at every timestep, and the other calculates potential advantages of each action, and the two are combined for a single action-advantage Q function
 
 ##### &nbsp;
 
