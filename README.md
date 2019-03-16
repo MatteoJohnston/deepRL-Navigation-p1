@@ -71,7 +71,7 @@ In order to discount returns at future time steps, the Q-function can be expande
 
 The algorithm, therefore, has a function that calculates the quality of a state-action combination:
 
-<img src="images/state-action combination.png" width="67%" align="top-left" alt="" title="state-action combination" />
+<img src="images/state-action combination.svg" width="17%" align="top-left" alt="" title="state-action combination" />
 
 We can then define our optimal policy `π*` as the action that maximizes the Q-function for a given state across all possible states. The optimal Q-function `Q*(s,a)` maximizes the total expected reward for an agent starting in state `s` and choosing action `a`, then following the optimal policy for each subsequent state.
 
