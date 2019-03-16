@@ -1,0 +1,95 @@
+<h4 id="udacity-deep-reinforcement-learning-nanodegree">Udacity Deep Reinforcement Learning Nanodegree</h4>
+<h3 id="project-1-navigation">Project 1: Navigation</h3>
+<h1 id="train-an-rl-agent-to-collect-bananas">Train an RL Agent to Collect Bananas</h1>
+<h3 id="introduction">Introduction</h3>
+<p>For this project, we have trained an agent to navigate (and collect bananas!) in a large, square world.</p>
+<p>A reward of +1 is provided for collecting a yellow banana, and a reward of -1 is provided for collecting a blue banana. Thus, the goal of our agent is to collect as many yellow bananas as possible while avoiding blue bananas. #####  </p>
+<h2 id="project">Project</h2>
+<p>The project is composed of five main steps:</p>
+<ol style="list-style-type: decimal">
+<li>State and action space evalaution</li>
+<li>Benchmark / baseline using a random action policy</li>
+<li>DQN algorithm implementation</li>
+<li>Run DQNs algorithm with different parameters</li>
+</ol>
+<h5 id="section"> </h5>
+<h3 id="state-and-action-space-evalaution">1. State and action space evalaution</h3>
+<p>The state space has 37 dimensions and contains the agent's velocity, along with ray-based perception of objects around agent's forward direction. Given this information, the agent has to learn how to best select actions. Four discrete actions are available, corresponding to: - <strong><code>0</code></strong> - move forward. - <strong><code>1</code></strong> - move backward. - <strong><code>2</code></strong> - turn left. - <strong><code>3</code></strong> - turn right.</p>
+<p>The task is episodic, and in order to solve the environment, our agent must get an average score of +13 over 100 consecutive episodes. #####  </p>
+<h3 id="benchmark-baseline-using-a-random-action-policy">2. Benchmark / baseline using a random action policy</h3>
+<p>Before embarking in builduing a deep reinforcement learning agent, we started by testing an agent that &quot;doesn't learn&quot; but selects actions uniformly at random.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">env_info <span class="op">=</span> env.reset(train_mode<span class="op">=</span><span class="va">False</span>)[brain_name] <span class="co"># reset the environment</span>
+state <span class="op">=</span> env_info.vector_observations[<span class="dv">0</span>]            <span class="co"># get the current state</span>
+score <span class="op">=</span> <span class="dv">0</span>                                          <span class="co"># initialize the score</span>
+<span class="cf">while</span> <span class="va">True</span>:
+    action <span class="op">=</span> np.random.randint(action_size)        <span class="co"># select an action</span>
+    env_info <span class="op">=</span> env.step(action)[brain_name]        <span class="co"># send the action to the environment</span>
+    next_state <span class="op">=</span> env_info.vector_observations[<span class="dv">0</span>]   <span class="co"># get the next state</span>
+    reward <span class="op">=</span> env_info.rewards[<span class="dv">0</span>]                   <span class="co"># get the reward</span>
+    done <span class="op">=</span> env_info.local_done[<span class="dv">0</span>]                  <span class="co"># see if episode has finished</span>
+    score <span class="op">+=</span> reward                                <span class="co"># update the score</span>
+    state <span class="op">=</span> next_state                             <span class="co"># roll over the state to next time step</span>
+    <span class="cf">if</span> done:                                       <span class="co"># exit loop if episode finished</span>
+        <span class="cf">break</span>
+
+<span class="bu">print</span>(<span class="st">&quot;Score: </span><span class="sc">{}</span><span class="st">&quot;</span>.<span class="bu">format</span>(score))</code></pre></div>
+<p>After one run the score is 0.0. Although one run is generally not enough to form an accurate view, in this instance we deem to be sufficient to understand that this methodology won't help us to solve the problem. Hence the need for deeep reinforcement learning.</p>
+<h5 id="section-1"> </h5>
+<h3 id="dqn-algorithm-implementation">3. DQN Algorithm implementation</h3>
+<p>In general, reinforcement learning involves an agent, a set of states <img src="images/S.svg" align="bottom-left" alt="" title="S" />, and a set <img src="images/A.svg" alt="" title="A" /> of actions per state. By performing an action <img src="images/a in A.svg" alt="" title="a in A" />, the agent transitions from state to state. Executing an action in a specific state provides the agent with a reward (a numerical score). The goal of the agent is to maximize its total (future) reward. It does this by adding the maximum reward attainable from future states to the reward for achieving its current state, effectively influencing the current action by the potential future reward. This potential reward is a weighted sum of the expected values of the rewards of all future steps starting from the current state.</p>
+<p>A <strong>Q-Learning</strong> algorithm is fashioned in such a way that the optimal policy must be discovered by interacting with the environment and recording observations. Therefore, the agent &quot;learns&quot; the policy through a process of trial-and-error that iteratively maps various environment states to the actions that yield the highest reward.</p>
+<h4 id="q-function">Q-Function</h4>
+<p>The weight for a step from a state <img src="images/Dt.svg" alt="" title="Dt" /> steps into the future is calculated as <img src="images/gammaDt.svg" alt="" title="gammaDt" />. <img src="images/gamma.svg" alt="" title="gamma" /> (the discount factor) is a number between 0 and 1 ( <img src="images/gamma_bounds.svg" alt="" title="gamma_bounds" />) and has the effect of valuing rewards received earlier higher than those received later (reflecting the value of a &quot;good start&quot;). <img src="images/gamma.svg" alt="" title="gamma" /> may also be interpreted as the probability to succeed (or survive) at every step <img src="images/Dt.svg" alt="" title="Dt" />.</p>
+<p>In order to discount returns at future time steps, the Q-function can be expanded to include the hyperparameter gamma <code>γ</code>.</p>
+<p><img src="images/optimal-action-value-function.png" width="67%" align="top-left" alt="" title="Optimal Action Value Function" /></p>
+<p>The algorithm, therefore, has a function that calculates the quality of a state-action combination:</p>
+<p><img src="images/state-action combination.svg" width="17%" align="top-left" alt="" title="state-action combination" /></p>
+<p>We can then define our optimal policy <code>π*</code> as the action that maximizes the Q-function for a given state across all possible states. The optimal Q-function <code>Q*(s,a)</code> maximizes the total expected reward for an agent starting in state <code>s</code> and choosing action <code>a</code>, then following the optimal policy for each subsequent state.</p>
+<p><img src="images/optimal-policy-equation.png" width="47%" align="top-left" alt="" title="Optimal Policy Equation" /></p>
+<p>Before learning begins, <img src="images/Q.svg" alt="" title="Q" /> is initialized to a possibly arbitrary fixed value (chosen by the programmer). Then, at each time <img src="images/t.svg" alt="" title="t" /> the agent selects an action <img src="images/at.svg" alt="" title="at" />, observes a reward <img src="images/rt.svg" alt="" title="rt" />, enters a new state <img src="images/st+1.svg" alt="" title="st+1" /> (that may depend on both the previous state <img src="images/st.svg" alt="" title="st" /> and the selected action), and <img src="images/Q.svg" alt="" title="Q" /> is updated. The core of the algorithm is a simple value iteration update, using the weighted average of the old value and the new information:</p>
+<p><img src="images/Qupdate.svg" width="67%" align="top-left" alt="" title="Qupdate" /></p>
+<p>where <img src="images/rt.svg" alt="" title="rt" /> is the reward received when moving from the state <img src="images/st.svg" alt="" title="st" /> to the state <img src="images/st+1.svg" alt="" title="st+1" />, and <img src="images/alpha.svg" alt="" title="alpha" /> is the learning rate (<img src="images/alpha_bound.svg" alt="" title="alpha_bound" />).</p>
+<h4 id="epsilon-greedy-algorithm">Epsilon Greedy Algorithm</h4>
+<p>The <strong>exploration vs. exploitation dilemma</strong> is a well known challenge in the field of reinforcement learning and it refers to the challenge with the Q-function in choosing which action to take while the agent is still learning the optimal policy. Should the agent choose an action based on the Q-values observed thus far? Or, should the agent try a new action in hopes of earning a higher reward?</p>
+<p>We implemented an <strong>𝛆-greedy algorithm</strong> to systematically manage the exploration vs. exploitation trade-off. The agent &quot;explores&quot; by picking a random action with some probability epsilon <code>𝛜</code>. However, the agent continues to &quot;exploit&quot; its knowledge of the environment by choosing actions based on the policy with probability (1-𝛜).</p>
+<p>Furthermore, the value of epsilon is purposely decayed over time, so that the agent favors exploration during its initial interactions with the environment, but increasingly favors exploitation as it gains more experience. The starting and ending values for epsilon, and the rate at which it decays are three hyperparameters that are later tuned during experimentation.</p>
+<p>You can find the 𝛆-greedy logic implemented as part of the <code>agent.act()</code> method in <code>agent.py</code> of the source code <a href="https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/agent.py#L73">here</a>.</p>
+<h4 id="deep-q-network-dqn">Deep Q-Network (DQN)</h4>
+<p>As name suggest, Deep Q-Learning, could essentially be described as a combination of a deep neural network and reinforcement learning. In this instance a deep network is used to approximate the Q-function. Given a network <code>F</code>, finding an optimal policy is a matter of finding the best weights <code>w</code> such that <code>F(s,a,w) ≈ Q(s,a)</code>.</p>
+<p>The neural network architecture used for this project can be found in the <code>model.py</code> file of the source code <a href="https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/model.py#L5">here</a>. The network contains three fully connected layers with 64, 64, and 4 nodes respectively.</p>
+<h4 id="experience-replay">Experience Replay</h4>
+<p>Experience replay allows the RL agent to learn from past experience, as the name would suggest. Each experience is stored in a replay buffer as the agent interacts with the environment. The replay buffer contains a collection of experience tuples with the state, action, reward, and next state <code>(s, a, r, s')</code>. The agent uses a random sapmling as part of the learning step. As the experiences are sampled randomly, we can assume the data to uncorrelated, although it is not always the case. Since a naive Q-learning algorithm could otherwise become biased by or &quot;stable&quot; by correlated (sequential) experience tuples, using random sampling generally helps with convergence issues.</p>
+<p>Also, experience replay improves learning through repetition. By doing multiple passes over the data, our agent has multiple opportunities to learn from a single experience tuple. This is particularly useful for state-action pairs that occur infrequently within the environment.</p>
+<p>The implementation of the replay buffer can be found in the <code>agent.py</code> file of the source code <a href="https://github.com/MatteoJohnston/deepRL-Navigation-p1/blob/master/agent.py#L121">here</a>.</p>
+<h5 id="section-2"> </h5>
+<h3 id="run-experiments">4. Run Experiments</h3>
+<p>Given that implementing DQN respect to initial benchmark policy was quite successful we only lmited ourselves to different hyperparameters. We managed in more than one occasion to solve in less than 250 episodes.</p>
+<p><img src="images/project_summary.PNG" width="67%" align="top-left" alt="" title="project_summary" /></p>
+<p><img src="images/selecting best performing agent.PNG" width="67%" align="top-left" alt="" title="selecting best performing agent" /></p>
+<h5 id="section-3"> </h5>
+<h2 id="future-improvements">Future Improvements</h2>
+<ul>
+<li>instead of a uniform experience replay we could used a <strong>&quot;prioritised experience replay&quot;</strong> which gives a sampling probability to transitions that are proportional to those transition’s ranks in the replay memory, meaning that useful high TD-Error samples will get sampled more often, decreases learning time even more than uniform experience replay.</li>
+<li><strong>Double DQN Learning</strong> which essentially relies on maintaining two Q-value functions QA and QB, each one gets update from the other for the next state.</li>
+<li><strong>Dueling DQN</strong> which splits the neural network into two — one learns to provide an estimate of the value at every timestep, and the other calculates potential advantages of each action, and the two are combined for a single action-advantage Q function</li>
+</ul>
+<h5 id="section-4"> </h5>
+<hr />
+<h1 id="project-starter-code">Project Starter Code</h1>
+<p>The project starter code can be found below, in case you want to run this project yourself.</p>
+<p>Also, the original Udacity repo for this project can be found <a href="https://github.com/udacity/deep-reinforcement-learning/tree/master/p1_navigation">here</a>.</p>
+<h3 id="getting-started">Getting Started</h3>
+<ol style="list-style-type: decimal">
+<li>Download the environment from one of the links below. You need only select the environment that matches your operating system:
+<ul>
+<li>Linux: <a href="https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux.zip">click here</a></li>
+<li>Mac OSX: <a href="https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana.app.zip">click here</a></li>
+<li>Windows (32-bit): <a href="https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86.zip">click here</a></li>
+<li>Windows (64-bit): <a href="https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Windows_x86_64.zip">click here</a></li>
+</ul>
+<p>(<em>For Windows users</em>) Check out <a href="https://support.microsoft.com/en-us/help/827218/how-to-determine-whether-a-computer-is-running-a-32-bit-version-or-64">this link</a> if you need help with determining if your computer is running a 32-bit version or 64-bit version of the Windows operating system.</p>
+<p>(<em>For AWS</em>) If you'd like to train the agent on AWS (and have not <a href="https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Training-on-Amazon-Web-Service.md">enabled a virtual screen</a>), then please use <a href="https://s3-us-west-1.amazonaws.com/udacity-drlnd/P1/Banana/Banana_Linux_NoVis.zip">this link</a> to obtain the environment.</p></li>
+<li><p>Place the file in the DRLND GitHub repository, in the <code>p1_navigation/</code> folder, and unzip (or decompress) the file.</p></li>
+</ol>
+<h3 id="instructions">Instructions</h3>
+<p>Follow the instructions in <code>Navigation.ipynb</code> to get started with training your own agent!</p>
